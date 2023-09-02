@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Error {
+    uint256 public num;  // Declare a state variable "num" of type uint256 that will store the current value.
+    
+    function set(uint256 _newNum) public {
+        // Declare a function "set" that takes a parameter "_newNum" of type uint256.
+        require(_newNum > num, "New number can't be smaller than the existing num");
+        // Use "require" to check if the new number is greater than the current value of "num".
+        
+        num = _newNum;  // Update the value of "num" with the new number.
+    }
+    
+    function increase(uint256 _amount) public {
+        // Declare a function "increase" that takes a parameter "_amount" of type uint256.
+        uint256 oldNum = num;  // Declare a local variable "oldNum" and assign it the value of "num".
+        
+        assert(num + _amount >= num);
+        // Use "assert" to ensure that adding "_amount" to the current value of "num" doesn't overflow.
+        
+        num += _amount;  // Increment the value of "num" by "_amount".
+        
+        if (num < oldNum) {
+            // Check if the new value of "num" is less than the previous value.
+            revert("Number won't reduce");  // If true, revert the transaction with an error message.
+        }
+    }
+}
